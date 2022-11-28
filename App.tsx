@@ -1,22 +1,22 @@
 /** @format */
-
-import {StatusBar} from 'expo-status-bar'
-import {Animated, StyleSheet, Text, View} from 'react-native'
+import React from 'react'
+import { StatusBar } from 'expo-status-bar'
+import 'react-native-reanimated'
 
 // user components
-import HorizontalView from './src/components/HorizontalView'
+import Navigation from './src/navigation'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import useCachedResources from './src/hooks/useCachedResources'
 
 export default function App() {
-    return (
-        <Animated.View style={styles.container}>
-            <StatusBar hidden />
-            <HorizontalView />
-        </Animated.View>
-    )
+  const isLoadingComplete = useCachedResources()
+  if (!isLoadingComplete) {
+    return null
+  }
+  return (
+    <SafeAreaProvider>
+      <StatusBar style='inverted' />
+      <Navigation />
+    </SafeAreaProvider>
+  )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-})
