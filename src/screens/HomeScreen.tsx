@@ -1,9 +1,9 @@
 /** @format */
 
 // prettier-ignore
-import { Animated, FlatList, Image, ImageBackground, Platform, Pressable, SafeAreaView, Text, TouchableOpacity, View, } from "react-native";
+import { Animated, FlatList, Image, ImageBackground, Platform, SafeAreaView, Text, TouchableOpacity, View, } from "react-native";
 import React, { useEffect, useState } from 'react'
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import Colors from '../constants/Colors'
 import Spacing from '../constants/Spacing'
@@ -15,55 +15,62 @@ import Layout from '../constants/Layout'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types'
 
+import { SelectedDateActionType as SelectedDate } from '../state/action-types/index'
 import RegularText from '../components/text/RegularText'
 import SmallText from '../components/text/SmallText'
 import BigText from '../components/text/BigText'
-import UserIcon from '../components/icon/UserIcon'
 import RegularBlurView from '../components/view/RegularBlurView'
 import RegularButton from '../components/button/RegularButton'
 import WideSpacingView from '../components/view/WideSpacingView'
-import { Entypo } from '@expo/vector-icons'
-import SelectDate, { SelectedProps } from '../components/SelectDate'
+import SelectDate from '../components/SelectDate'
 import { MotiView, useAnimationState } from 'moti'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../state'
 
+import { CardAnimationActionType as CardAction, SelectedDateActionType as DateAction } from '../state/action-types/index'
 const SIZE = Spacing * 6
-const NFT_HEIGHT = Spacing * 45
-const NFT_WIDTH = Layout.window.width - Spacing * 4
+const CARD_HEIGHT = Spacing * 45
+const CARD_WIDTH = Layout.window.width - Spacing * 4
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
-enum ArrowDirection {
-  UP = 'chevron-up',
-  DOWN = 'chevron-down',
-  RIGHT = 'chevron-right',
-  LEFT = 'chevron-left',
-}
-
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => {
   const [activeCategory, setActiveCategory] = useState<categoryInterface | undefined>(undefined)
   const [collectionList, setCollectionList] = useState<collectionInterface[]>([])
-  const [nowDisplayDate, setDisplayDate] = useState<SelectedProps>(SelectedProps.WEEK)
 
-  const toggleAnimation = () => {
-    if (animationState.current === 'active') {
-      animationState.transitionTo('to')
-    } else {
-      animationState.transitionTo('active')
-    }
-  }
-  const animationState = useAnimationState({
-    from: {
-      opacity: 0,
-      scale: 0.9,
-      rotateX: '0deg',
-    },
-    to: {
-      opacity: 1,
-      scale: 1,
+  const nowReduxCard = useSelector<RootState, CardAction>((state) => state.cardAnimation.value)
+
+  //prettier-ignore
+  const cardAnimState = useAnimationState({
+    default: {
+      transition: { type: 'timing', duration: 100},
+      transform: [
+        {
+          "rotateX": '0deg',
+        },
+        {
+          "translateY": 0,
+        },
+      ],
     },
     active: {
-      rotateX: '25deg',
+      transition: { type: 'timing', duration: 100},
+      transform: [
+        {
+          "rotateX": [0, 0.3, { value: '0.3', duration: 100}],
+        },
+        {
+          "translateY": [0, 0.3, { value: Spacing * 13, duration: 100}],
+        },
+      ],
     },
   })
+  // redux
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (nowReduxCard === CardAction.FLIP) cardAnimState.transitionTo('active')
+    if (nowReduxCard === CardAction.REGULAR) cardAnimState.transitionTo('default')
+  }, [dispatch, nowReduxCard])
+
   useEffect(() => {
     setCollectionList(collections.filter((collection) => collection.category.id === activeCategory?.id))
   }, [activeCategory?.id])
@@ -78,8 +85,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
         <TouchableOpacity>
           <MaterialCommunityIcons name='dots-grid' color={Colors.text} size={Spacing * 3} />
         </TouchableOpacity>
-        <RegularText>Hey {user.name}</RegularText>
-        <UserIcon image={user.image} />
+        <BigText>{user.name}</BigText>
+        <TouchableOpacity
+          onPress={() => navigate('CollectionScreen')}
+          style={{
+            height: SIZE,
+            width: SIZE,
+            overflow: 'hidden',
+            borderRadius: SIZE / 2,
+          }}>
+          <Image
+            source={user.image}
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        </TouchableOpacity>
       </WideSpacingView>
 
       <Animated.View
@@ -114,31 +136,28 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
       </Animated.View>
       <WideSpacingView viewStyles={{ paddingVertical: Spacing * 1 }}>
         <RegularText>{activeCategory?.name} collections</RegularText>
-        <Pressable onPress={toggleAnimation} style={{ flexDirection: 'column' }}>
-          <SelectDate isSelected={nowDisplayDate} />
-          <Entypo name={ArrowDirection.DOWN} size={Spacing * 3} color={Colors.text} style={{ left: Spacing }} />
-        </Pressable>
+        <SelectDate />
       </WideSpacingView>
 
-      <View>
+      <Animated.View>
         {collectionList.map((collection) => (
           <MotiView
-            state={animationState}
-            delay={120}
+            state={cardAnimState}
             key={collection.id}
+            transition={{ duration: 100, type: 'timing' }}
             style={{
-              position: 'relative',
+              position: 'absolute',
               width: '100%',
               height: '100%',
               alignItems: 'center',
             }}>
-            {collection.nfts.map((nft, index) => (
+            {collection.cards.map((card, index) => (
               <ImageBackground
                 style={{
-                  height: NFT_HEIGHT,
-                  width: NFT_WIDTH,
+                  height: CARD_HEIGHT,
+                  width: CARD_WIDTH,
                   position: 'absolute',
-                  zIndex: Spacing - index,
+                  zIndex: collection.cards.length + 3 - index,
                   transform: [
                     {
                       translateY: index * 10,
@@ -147,13 +166,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
                       scaleX: 1 - index / 10,
                     },
                   ],
-                  opacity: 1,
+                  opacity: 1 - 0.1 * index,
                   borderRadius: Spacing * 2,
                   overflow: 'hidden',
                   justifyContent: 'flex-end',
                 }}
-                key={nft.id}
-                source={nft.image}>
+                key={card.id}
+                source={card.image}>
                 {index === 0 && (
                   <RegularBlurView
                     dark={true}
@@ -161,7 +180,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
                     blurViewStyle={{
                       bottom: Spacing * 3,
                       marginHorizontal: Spacing * 2,
-                      padding: Spacing / 2,
+                      padding: Spacing,
                       borderRadius: Spacing * 2,
                     }}>
                     <View
@@ -174,8 +193,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
                     </View>
                     <RegularButton
                       onPress={() => navigate('DetailScreen', { collection: collection })}
-                      btnStyles={{ backgroundColor: Colors.secondary }}>
-                      <SmallText> View Detail </SmallText>
+                      btnStyles={{ backgroundColor: 'hsl(258, 74%, 63%)' }}>
+                      <RegularText textStyles={{ fontWeight: '700', fontFamily: Font.gilroyBold }}> Detail </RegularText>
                     </RegularButton>
                   </RegularBlurView>
                 )}
@@ -183,7 +202,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
             ))}
           </MotiView>
         ))}
-      </View>
+      </Animated.View>
     </SafeAreaView>
   )
 }

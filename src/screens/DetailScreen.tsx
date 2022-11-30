@@ -6,8 +6,7 @@ import { Dimensions, Image, ImageBackground, SafeAreaView, StyleSheet, Text, Vie
 import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types'
-import Layout from '../constants/Layout'
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, Entypo } from '@expo/vector-icons'
 import { BlurView } from 'expo-blur'
 
 import Colors from '../constants/Colors'
@@ -32,6 +31,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
     <View style={{ paddingTop: Platform.OS === 'android' ? Spacing * 4 : 0 }}>
       <ImageBackground
         source={collection.image}
+        blurRadius={1}
         style={{
           height: height * 0.65,
           width: '100%',
@@ -56,7 +56,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
               </RegularBlurView>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigate('HorizontalScreen')}
+              onPress={() => navigate('CollectionScreen')}
               style={{
                 height: BUTTON_SIZE,
                 width: BUTTON_SIZE,
@@ -117,7 +117,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
                   height: '50%',
                 }}
                 resizeMode='contain'
-                source={collection.currency.image}
+                source={collection.logo.image}
               />
             </RegularBlurView>
           </WideSpacingView>
@@ -133,16 +133,16 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
           justifyContent: 'space-around',
         }}>
         <View style={{ flexDirection: 'row' }}>
-          <BigText>By</BigText>
+          <BigText>By </BigText>
           <BigText textStyles={{ marginLeft: Spacing / 2 }}>{collection.author}</BigText>
         </View>
-        <RegularText textStyles={{ marginTop: Spacing }}>Highest Bid: {collection.hightest_bid}</RegularText>
+        <RegularText textStyles={{ marginTop: Spacing }}>Star Rate: {collection.star}</RegularText>
 
         <TouchableOpacity
           onPress={() =>
-            navigate('MakeBidScreen', {
+            navigate('PurchaseScreen', {
               image: collection.image,
-              currency: collection.currency,
+              currency: collection.logo,
             })
           }
           style={{ marginTop: Spacing * 2 }}>
@@ -159,35 +159,25 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
                 width: BUTTON_SIZE,
                 borderRadius: BUTTON_SIZE / 2,
                 justifyContent: 'center',
+
+                marginRight: Spacing,
               }}>
               <Image
                 style={{
-                  width: '50%',
-                  height: '50%',
+                  width: '100%',
+                  height: '100%',
                 }}
                 resizeMode='contain'
-                source={collection.currency.image}
+                source={collection.logo.image}
               />
             </RegularBlurView>
-            <SmallText>Make Collection Bid</SmallText>
+            <BigText textStyles={{ color: Colors.black }}>Get it now !</BigText>
             <View
               style={{
                 flexDirection: 'row',
                 width: Spacing * 7,
               }}>
-              <ChevronIcon
-                iconStyles={{
-                  marginLeft: -Spacing * 2,
-                  opacity: 0.2,
-                }}
-              />
-              <ChevronIcon
-                iconStyles={{
-                  marginLeft: -Spacing * 2,
-                  opacity: 0.6,
-                }}
-              />
-              <ChevronIcon iconStyles={{ marginLeft: -Spacing * 2 }} />
+              <Entypo name='chevron-right' size={Spacing * 4} color={Colors.yellow} style={{ marginLeft: Spacing }} />
             </View>
           </RegularBlurView>
         </TouchableOpacity>
@@ -200,6 +190,7 @@ export default DetailScreen
 
 const styles = StyleSheet.create({
   rowView: {
+    marginTop: Spacing,
     paddingHorizontal: Spacing * 2,
     borderRadius: Spacing * 2,
     flexDirection: 'row',

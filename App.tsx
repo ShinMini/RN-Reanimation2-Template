@@ -8,15 +8,20 @@ import Navigation from './src/navigation'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import useCachedResources from './src/hooks/useCachedResources'
 
+import { Provider as ReduxProvider } from 'react-redux'
+import { store } from './src/state'
+
 export default function App() {
   const isLoadingComplete = useCachedResources()
   if (!isLoadingComplete) {
     return null
   }
   return (
-    <SafeAreaProvider>
-      <StatusBar style='inverted' />
-      <Navigation />
-    </SafeAreaProvider>
+    <ReduxProvider store={store}>
+      <SafeAreaProvider>
+        <StatusBar style='inverted' />
+        <Navigation />
+      </SafeAreaProvider>
+    </ReduxProvider>
   )
 }

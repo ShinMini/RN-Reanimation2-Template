@@ -1,8 +1,8 @@
 /** @format */
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {ImageSourcePropType} from 'react-native'
-import {collectionInterface, currency} from './src/data'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { ImageSourcePropType } from 'react-native'
+import { collectionInterface, currency } from './src/data'
 
 declare global {
   namespace ReactNavigation {
@@ -12,9 +12,9 @@ declare global {
 
 export type RootStackParamList = {
   Home: undefined
-  DetailScreen: {collection: collectionInterface}
-  MakeBidScreen: {image: ImageSourcePropType; currency: currency}
-  HorizontalScreen: undefined
+  DetailScreen: { collection: collectionInterface }
+  PurchaseScreen: { image: ImageSourcePropType; currency: currency }
+  CollectionScreen: undefined
 }
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, Screen>

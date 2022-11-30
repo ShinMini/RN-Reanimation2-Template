@@ -1,22 +1,58 @@
 /** @format */
 
-import { View, Text, StyleSheet, TouchableOpacity, StyleProp, TextStyle } from 'react-native'
-import React, { useCallback, useState } from 'react'
+// components
+import { View, StyleSheet, TouchableOpacity, StyleProp, TextStyle } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import RegularText from './text/RegularText'
+import { MotiView, useAnimationState } from 'moti'
 import { BlurView as _BlurView } from 'expo-blur'
-import SmallText from './text/SmallText'
+
+// redux
+import { useDispatch, useSelector } from 'react-redux'
+
+// styles
 import Spacing from '../constants/Spacing'
 import Colors from '../constants/Colors'
-import { DrawerItem } from '@react-navigation/drawer'
-import RegularText from './text/RegularText'
-import { MotiView as _MotiView, useAnimationState } from 'moti'
+import { setDay, setMonth, setWeek, setYear, selectedDateSlice } from '../state/slices/selectedDateSlice'
+import { CardAnimationActionType as CardAction, SelectedDateActionType as DateAction } from '../state/action-types/index'
+import { RootState } from '../state'
+import { setFlip, setRegular } from '../state/slices/cardAnimationSlice'
+import { MotiPressable } from 'moti/interactions'
 
-type ItemView = {
-  text: SelectedProps
-  index?: number
-  textStyle?: StyleProp<TextStyle>
-}
-const MotiView: React.FC<ItemView> = ({ text, index = 0, textStyle }) => {
-  const animationState = useAnimationState({
+// Main component
+
+const SelectDate: React.FC = (props) => {
+  const [isShowDisplay, setIsShowDisplay] = useState(false)
+
+  const nowReduxDate = useSelector<RootState, DateAction>((state) => state.selectedDate.value)
+  const dispatch = useDispatch()
+
+  const orderDate = useMemo(() => [DateAction.WEEK, DateAction.DAY, DateAction.MONTH, DateAction.YEAR], [])
+
+  const onPress = useCallback((selectedOption: DateAction) => {
+    switch (selectedOption) {
+      case DateAction.DAY:
+        dispatch(setDay())
+        break
+      case DateAction.WEEK:
+        dispatch(setWeek())
+        break
+      case DateAction.MONTH:
+        dispatch(setMonth())
+        break
+      case DateAction.YEAR:
+        dispatch(setYear())
+        break
+    }
+    setIsShowDisplay((isShowDisplay) => !isShowDisplay)
+  }, [])
+
+  useEffect(() => {
+    if (!isShowDisplay) dispatch(setRegular())
+    if (isShowDisplay) dispatch(setFlip())
+  }, [isShowDisplay])
+
+  const animState = useAnimationState({
     from: {
       opacity: 0,
       scale: 0.9,
@@ -26,44 +62,22 @@ const MotiView: React.FC<ItemView> = ({ text, index = 0, textStyle }) => {
       scale: 1,
     },
   })
-  return (
-    <_MotiView state={animationState} delay={index * 50} style={styles.blurView}>
-      <RegularText textStyles={[styles.textStyle, textStyle]}>The {text}</RegularText>
-    </_MotiView>
-  )
-}
-
-export enum SelectedProps {
-  DAY = 'day',
-  WEEK = 'week',
-  MONTH = 'month',
-  YEAR = 'year',
-}
-const orderDate = [SelectedProps.WEEK, SelectedProps.DAY, SelectedProps.MONTH, SelectedProps.YEAR]
-
-export type selectDateProps = {
-  isSelected: SelectedProps
-}
-const SelectDate: React.FC<selectDateProps> = (props) => {
-  const [nowDisplayDate, setDisplayDate] = useState<SelectedProps>(SelectedProps.WEEK)
-  const [isShowDisplay, setIsShowDisplay] = useState(false)
-
-  const onPress = useCallback((selectOption: SelectedProps) => {
-    setDisplayDate(selectOption)
-    setIsShowDisplay((isShowDisplay) => !isShowDisplay)
-  }, [])
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => onPress(nowDisplayDate)}>
-        <MotiView text={nowDisplayDate} textStyle={{ color: Colors.yellow }} />
+      <TouchableOpacity onPress={() => onPress(nowReduxDate)}>
+        <MotiView style={[styles.blurView, { marginTop: Spacing }]}>
+          <RegularText textStyles={{ color: Colors.yellow }}>{nowReduxDate}</RegularText>
+        </MotiView>
       </TouchableOpacity>
       {isShowDisplay &&
         orderDate.map((date, index) => {
-          if (date == nowDisplayDate) return
+          if (date == nowReduxDate) return
           return (
             <TouchableOpacity key={index.toString()} onPress={() => onPress(date)}>
-              <MotiView index={index} key={index.toString()} text={date} textStyle={{ color: Colors.gray }} />
+              <MotiView state={animState} delay={index * 500} style={styles.blurView}>
+                <RegularText textStyles={[styles.textStyle]}>{date}</RegularText>
+              </MotiView>
             </TouchableOpacity>
           )
         })}
@@ -73,11 +87,12 @@ const SelectDate: React.FC<selectDateProps> = (props) => {
 
 export default SelectDate
 
+/// styling
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    right: Spacing * 1,
     display: 'flex',
+    position: 'absolute',
+    right: 1,
     flexDirection: 'column',
   },
   blurView: {

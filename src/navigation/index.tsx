@@ -10,11 +10,9 @@ import * as React from 'react'
 import Colors from '../constants/Colors'
 import DetailScreen from '../screens/DetailScreen'
 import HomeScreen from '../screens/HomeScreen'
-import MakeBidScreen from '../screens/MakeBidScreen'
-import HorizontalScreen from '../screens/HorizontalScreen'
+import PurchaseScreen from '../screens/PurchaseScreen'
+import CollectionScreen from '../screens/CollectionScreen'
 import { RootStackParamList } from '../../types'
-import { Platform } from 'react-native'
-import Spacing from '../constants/Spacing'
 
 export default function Navigation() {
   return (
@@ -36,8 +34,8 @@ function RootNavigator() {
       }}>
       <Stack.Screen name='Home' component={HomeScreen} />
       <Stack.Screen name='DetailScreen' component={DetailScreen} />
-      <Stack.Screen name='MakeBidScreen' component={MakeBidScreen} />
-      <Stack.Screen name='HorizontalScreen' component={HorizontalScreen} />
+      <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
+      <Stack.Screen name='CollectionScreen' component={CollectionScreen} />
     </Stack.Navigator>
   )
 }

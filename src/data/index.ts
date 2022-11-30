@@ -1,6 +1,22 @@
 /** @format */
 
-import {ImageSourcePropType} from 'react-native'
+import { ImageSourcePropType } from 'react-native'
+
+const img1 = require('../assets/images/cards/a.jpg')
+const img2 = require('../assets/images/cards/apple.jpg')
+const img3 = require('../assets/images/cards/artwork1.png')
+const img4 = require('../assets/images/cards/bear.png')
+const img5 = require('../assets/images/cards/coin.jpg')
+const img6 = require('../assets/images/cards/dinosaur.jpg')
+const img7 = require('../assets/images/cards/person1.jpg')
+const img8 = require('../assets/images/cards/person2.jpg')
+const img9 = require('./../assets/images/cards/sea.jpg')
+const img10 = require('./../assets/images/cards/something.jpg')
+const img11 = require('./../assets/images/cards/sunflower.jpg')
+const img12 = require('./../assets/images/cards/yellow.png')
+
+const logo = require('../assets/icons/dog.png')
+const avatar = require('./../assets/images/user/avatar.png')
 
 export interface categoryInterface {
   id: number
@@ -10,29 +26,29 @@ export interface categoryInterface {
 export const categories: categoryInterface[] = [
   {
     id: 1,
-    name: 'Recent'
+    name: 'Recent',
+  },
+  {
+    id: 2,
+    name: 'Top',
   },
   {
     id: 3,
-    name: 'Trending'
+    name: 'Trending',
   },
   {
     id: 4,
-    name: 'Top'
+    name: 'Recommend',
   },
-  {
-    id: 5,
-    name: 'Collectibles'
-  }
 ]
 
-export interface currency {
+export interface logo {
   id: number
   name: string
   image: ImageSourcePropType
 }
 
-export interface nftInterface {
+export interface cardInterface {
   id: number
   name: string
   image: ImageSourcePropType
@@ -41,361 +57,360 @@ export interface nftInterface {
   owner: string
 }
 
-const eth: currency = {
+const lunchPack: logo = {
   id: 1,
-  name: 'ETH',
-  image: require('../assets/images/currency/eth-logo.png')
-  // image: require('../assets/images/currency/eth-logo.png')
+  name: '$',
+  image: logo,
 }
 
-export const nfts: nftInterface[] = [
+export const cards: cardInterface[] = [
   {
     id: 1,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    name: 'Mini Hyeon',
+    image: img1,
     category: categories[0],
-    author: 'Author 1',
-    owner: 'Owner'
+    author: 'Shin Mini',
+    owner: '현민',
   },
   {
     id: 2,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    name: 'apple',
+    image: img2,
     category: categories[1],
-    author: 'Th-Author',
-    owner: 'The Owner'
+    author: 'Shin Mini',
+    owner: '신현민',
   },
   {
     id: 3,
-    name: 'Teaser',
-    image: require('../assets/images/nft/artwork1.png'),
+    name: 'artwork',
+    image: img3,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'Gumi bear',
+    owner: 'bin sal man',
   },
   {
     id: 4,
-    name: 'Teaser',
-    image: require('../assets/images/nft/avatar.png'),
+    name: 'bear',
+    image: img4,
     category: categories[1],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'teddy bear',
+    owner: 'yasuo',
   },
   {
     id: 5,
-    name: 'Teaser',
-    image: require('../assets/images/nft/avatar.png'),
+    name: 'coin',
+    image: img5,
     category: categories[0],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'gitter',
+    owner: 'garen',
   },
   {
     id: 6,
-    name: 'Teaser',
-    image: require('../assets/images/nft/blue1.png'),
+    name: 'dinosaur',
+    image: img6,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'cllid',
+    owner: 'holy moly',
   },
   {
     id: 7,
-    name: 'Teaser',
-    image: require('../assets/images/nft/Board.png'),
+    name: 'person',
+    image: img7,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'human',
+    owner: 'Im not',
   },
   {
     id: 8,
-    name: 'Teaser',
-    image: require('../assets/images/nft/img1.png'),
+    name: 'human',
+    image: img8,
     category: categories[3],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'robot',
+    owner: 'none',
   },
   {
     id: 9,
-    name: 'Teaser',
-    image: require('../assets/images/nft/img2.png'),
+    name: 'sea',
+    image: img9,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'bitch',
+    owner: 'bench',
   },
   {
     id: 11,
-    name: 'Teaser',
-    image: require('../assets/images/nft/img3.png'),
+    name: 'something',
+    image: img10,
     category: categories[0],
     author: 'Author 1',
-    owner: 'Owner'
+    owner: 'Owner',
   },
   {
     id: 12,
-    name: 'Teaser',
-    image: require('../assets/images/nft/yellowRing.png'),
+    name: 'sunflower',
+    image: img11,
     category: categories[1],
-    author: 'Th-Author',
-    owner: 'The Owner'
+    author: 'D-B',
+    owner: 'ShinMini',
   },
   {
     id: 13,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0016.jpg'),
+    name: 'yellow',
+    image: img12,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'YG',
+    owner: 'KIH',
   },
   {
     id: 14,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0015.jpg'),
+    name: 'A',
+    image: img1,
     category: categories[1],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'EIK',
+    owner: 'heung min son',
   },
   {
     id: 15,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0017.jpg'),
+    name: 'Apple',
+    image: img2,
     category: categories[0],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'jobs',
+    owner: 'steve',
   },
   {
     id: 16,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0023.jpg'),
+    name: 'art',
+    image: img3,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: '윤',
+    owner: '과타몰리',
   },
   {
     id: 17,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0024.jpg'),
+    name: 'bear',
+    image: img4,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: '지리산 곰',
+    owner: '모략가',
   },
   {
     id: 18,
-    name: 'Teaser',
-    image: require('../assets/images/nft/yellowRing.png'),
+    name: 'coin',
+    image: img5,
     category: categories[3],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: '비트',
+    owner: '루시우',
   },
   {
     id: 19,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    name: 'dinosaur',
+    image: img6,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: '김꽈뚜릅',
+    owner: '조선인',
   },
   {
     id: 111,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    name: 'person',
+    image: img7,
     category: categories[0],
-    author: 'Author 1',
-    owner: 'Owner'
+    author: '인간1',
+    owner: '블리츠크랭크',
   },
   {
     id: 112,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0014.jpg'),
+    name: '사람',
+    image: img8,
     category: categories[1],
-    author: 'Th-Author',
-    owner: 'The Owner'
+    author: '이루다',
+    owner: '아니다',
   },
   {
     id: 113,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0015.jpg'),
+    name: '내가 그린 기린 그림',
+    image: img9,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: '김기린',
+    owner: '짜오렁',
   },
   {
     id: 114,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0016.jpg'),
+    name: '바다다',
+    image: img10,
     category: categories[1],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'ela',
+    owner: 'kloie',
   },
   {
     id: 115,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0017.jpg'),
+    name: 'ilkein',
+    image: img12,
     category: categories[0],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'I0llk',
+    owner: 'eams ili',
   },
   {
     id: 116,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0023.jpg'),
+    name: 'Kaielm',
+    image: img11,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'Jeil shil',
+    owner: 'eiln ilkim',
   },
   {
     id: 117,
-    name: 'Teaser',
-    image: require('../assets/images/nft/yellowRing.png'),
+    name: 'dil!',
+    image: img3,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'Eiln Qilm',
+    owner: 'Ziln Jjiz',
   },
   {
     id: 118,
-    name: 'Teaser',
-    image: require('../assets/images/nft/img3.png'),
+    name: 'Zion',
+    image: img4,
     category: categories[3],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'Zao Zion',
+    owner: 'Ailn ieil',
   },
   {
     id: 119,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    name: 'Cutter',
+    image: img1,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'Gutter',
+    owner: 'Butter',
   },
   {
     id: 21,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    name: 'iLike',
+    image: img2,
     category: categories[0],
-    author: 'Author 1',
-    owner: 'Owner'
+    author: 'Utou',
+    owner: 'iIKLLL',
   },
   {
     id: 22,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    name: 'EILKJ',
+    image: img5,
     category: categories[1],
-    author: 'Th-Author',
-    owner: 'The Owner'
+    author: 'iII<<',
+    owner: 'IEPN',
   },
   {
     id: 23,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    name: 'IELN',
+    image: img6,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'Author',
+    owner: 'Owner',
   },
   {
     id: 24,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    name: 'ILNE',
+    image: img7,
     category: categories[1],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'author',
+    owner: 'Name',
   },
   {
     id: 25,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    name: 'ilen',
+    image: img8,
     category: categories[0],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'ilkne',
+    owner: 'euhhh',
   },
   {
     id: 26,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    name: 'googter',
+    image: img9,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'gan',
+    owner: 'gane zi',
   },
   {
     id: 27,
-    name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    name: 'ildnm',
+    image: img10,
     category: categories[2],
-    author: 'N_Author',
-    owner: 'Owner Name'
+    author: 'good thing',
+    owner: 'memory',
   },
   {
     id: 28,
     name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0012.jpg'),
+    image: img11,
     category: categories[3],
     author: 'N_Author',
-    owner: 'Owner Name'
+    owner: 'Owner Name',
   },
   {
     id: 29,
     name: 'Teaser',
-    image: require('../assets/images/nft/IMG_0013.jpg'),
+    image: img12,
     category: categories[2],
     author: 'N_Author',
-    owner: 'Owner Name'
-  }
+    owner: 'Owner Name',
+  },
 ]
 
 export interface collectionInterface {
   id: number
   name: string
-  nfts: nftInterface[]
+  cards: cardInterface[]
   category: categoryInterface
   author: string
   image: ImageSourcePropType
-  currency: currency
+  logo: logo
   handle: string
-  hightest_bid: number
+  star: number
 }
 
 export const collections: collectionInterface[] = [
   {
     id: 1,
-    name: 'Teaser',
-    nfts: nfts.slice(2, 7),
+    name: 'ShinMini',
+    cards: cards.slice(2, 7),
     category: categories[0],
-    author: 'Matt_Sypien',
-    image: nfts[2].image,
-    currency: eth,
+    author: 'Hyeon Min',
+    image: cards[2].image,
+    logo: lunchPack,
     handle: '@Handle_prime',
-    hightest_bid: 1.87
+    star: 3.87,
   },
   {
     id: 2,
-    name: 'Teaser 2',
-    nfts: nfts.slice(5, 10),
+    name: 'SunFlower',
+    cards: cards.slice(5, 10),
     category: categories[1],
-    author: 'Matt_Sypien',
-    image: nfts[5].image,
-    currency: eth,
-    handle: '@Handle_prime',
-    hightest_bid: 0.92
+    author: 'LeoNardo',
+    image: cards[5].image,
+    logo: lunchPack,
+    handle: '@Handle_middle',
+    star: 0.92,
   },
   {
     id: 3,
-    name: 'Teaser 3',
-    nfts: nfts.slice(10, 15),
+    name: 'Hyeon Min',
+    cards: cards.slice(10, 15),
     category: categories[2],
-    author: 'Matt_Sypien',
-    image: nfts[10].image,
-    currency: eth,
+    author: 'Hyeon mini',
+    image: cards[10].image,
+    logo: lunchPack,
     handle: '@Handle_prime',
-    hightest_bid: 0.75
+    star: 0.75,
   },
   {
     id: 4,
-    name: 'Teaser 4',
-    nfts: nfts.slice(13, 17),
+    name: '신현민',
+    cards: cards.slice(13, 17),
     category: categories[3],
-    author: 'Matt_Sypien',
-    image: nfts[13].image,
-    currency: eth,
+    author: '현민',
+    image: cards[13].image,
+    logo: lunchPack,
     handle: '@Handle_prime',
-    hightest_bid: 2.63
-  }
+    star: 2.63,
+  },
 ]
 
 interface userInterface {
@@ -406,6 +421,6 @@ interface userInterface {
 
 export const user: userInterface = {
   id: 1,
-  name: 'Too',
-  image: require('../assets/images/user/avatar.png')
+  name: 'Shin Mini',
+  image: avatar,
 }
