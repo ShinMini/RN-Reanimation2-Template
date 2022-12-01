@@ -414,14 +414,23 @@ export const collections: collectionInterface[] = [
   },
 ]
 
-interface userInterface {
-  id: number
+export interface userInterface {
+  id: string
   name: string
   image: ImageSourcePropType
+  age?: number
+  phone?: string
+  email?: string
+  git?: string
 }
 
 export const user: userInterface = {
-  id: 1,
+  id: 'min990713',
   name: 'Shin Mini',
   image: avatar,
+
+  age: 23,
+  phone: '010-8794-3202',
+  email: 'gusals121234@gamil.com',
+  git: 'ShinMini.git',
 }

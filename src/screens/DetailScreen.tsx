@@ -16,7 +16,6 @@ import RegularBlurView from '../components/view/RegularBlurView'
 import WideSpacingView from '../components/view/WideSpacingView'
 import BigText from '../components/text/BigText'
 import RegularText from '../components/text/RegularText'
-import SmallText from '../components/text/SmallText'
 import ChevronIcon from '../components/icon/ChevronIcon'
 
 type DetailScreenProps = NativeStackScreenProps<RootStackParamList, 'DetailScreen'>
@@ -142,7 +141,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
           onPress={() =>
             navigate('PurchaseScreen', {
               image: collection.image,
-              currency: collection.logo,
+              logo: collection.logo,
             })
           }
           style={{ marginTop: Spacing * 2 }}>

@@ -112,7 +112,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
         <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} style={styles.sideMenu}>
           <BlurView tint='dark' intensity={122} style={styles.menuView}>
             <TouchableOpacity onPress={() => menuOptionBtn('Home')}>
-              <BigText textStyles={[styles.menuText, {color: Colors.yellow}]}>Home</BigText>
+              <BigText textStyles={[styles.menuText, { color: Colors.yellow }]}>Home</BigText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => menuOptionBtn('CollectionScreen')}>
               <BigText textStyles={[styles.menuText]}>Collection</BigText>
@@ -145,7 +145,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
           <MaterialCommunityIcons name='menu' color={Colors.text} size={Spacing * 3} />
         </TouchableOpacity>
         <BigText>{user.name}</BigText>
-        <TouchableOpacity onPress={() => navigate('CollectionScreen')} style={styles.viewBtn}>
+        <TouchableOpacity onPress={() => navigate('UserInfoScreen', { userInfo: user })} style={styles.viewBtn}>
           <Image source={user.image} style={{ width: '100%', height: '100%' }} />
         </TouchableOpacity>
       </WideSpacingView>

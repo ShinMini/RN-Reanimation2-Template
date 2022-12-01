@@ -14,14 +14,14 @@ const Background = styled.div`
 
   width: 600px;
   height: 600px;
-  background-color: hsl(265.7142857142857, 3.2558139534883734%, 42.15686274509804%);
+  background-color: hsl(265, 3%, 42%);
   opacity: 0.7;
   backdrop-filter: blur(10px);
 `
 const Popup = styled.div`
   width: 60%;
   height: 60%;
-  background-color: hsl(274.6875, 65.3061224489796%, 80.7843137254902%);
+  background-color: hsl(274, 65%, 80%);
 
   border-bottom: 5px solid #222222;
   border-right: 3px solid #333333;

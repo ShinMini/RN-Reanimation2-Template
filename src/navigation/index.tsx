@@ -12,6 +12,7 @@ import DetailScreen from '../screens/DetailScreen'
 import HomeScreen from '../screens/HomeScreen'
 import PurchaseScreen from '../screens/PurchaseScreen'
 import CollectionScreen from '../screens/CollectionScreen'
+import UserInfoScreen from '../screens/UserInfoScreen'
 import { RootStackParamList } from '../../types'
 
 export default function Navigation() {
@@ -36,6 +37,7 @@ function RootNavigator() {
       <Stack.Screen name='DetailScreen' component={DetailScreen} />
       <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
       <Stack.Screen name='CollectionScreen' component={CollectionScreen} />
+      <Stack.Screen name='UserInfoScreen' component={UserInfoScreen} />
     </Stack.Navigator>
   )
 }
