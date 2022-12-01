@@ -1,10 +1,11 @@
 /** @format */
 
+import { useMemo } from 'react'
 import { ImageSourcePropType } from 'react-native'
 
 const img1 = require('../assets/images/cards/a.jpg')
 const img2 = require('../assets/images/cards/apple.jpg')
-const img3 = require('../assets/images/cards/artwork1.png')
+const img3 = require('../assets/images/cards/img3.jpg')
 const img4 = require('../assets/images/cards/bear.png')
 const img5 = require('../assets/images/cards/coin.jpg')
 const img6 = require('../assets/images/cards/dinosaur.jpg')

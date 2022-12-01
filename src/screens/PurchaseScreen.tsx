@@ -20,7 +20,7 @@ const BUTTON_SIZE = Spacing * 7
 const PurchaseScreen: React.FC<PurchaseScreenProps> = ({
   navigation: { goBack },
   route: {
-    params: { image, currency },
+    params: { image, logo },
   },
 }) => {
   return (
