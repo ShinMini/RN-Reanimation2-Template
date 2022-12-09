@@ -13,8 +13,10 @@ export const Colors = {
   lightGray: '#e5e5e5',
 
   yellow: '#ffc300',
-
   yellowLight: '#ffbf69',
+
+  lightCard: '#457b9d',
+  darkCard: '#1d3557',
 
   text: '#f8f9fa',
   textGray: '#e9ecef',

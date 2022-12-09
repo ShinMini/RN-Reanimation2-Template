@@ -7,10 +7,8 @@ import React from 'react'
 import type { FC } from 'react'
 
 /** react-native Lib */
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Colors from '../constants/Colors'
-import { FlipInEasyX } from 'react-native-reanimated'
-import { ScrollView } from 'react-native-gesture-handler'
 
 interface DonutChartProps {
   strokeWidth: number
@@ -29,7 +27,7 @@ export const DonutChart: FC<DonutChartProps> = ({
   smallerFont,
   targetPercentage,
 }) => {
-  const innerRadius = radius - strokeWidth / 2
+  const innerRadius = radius - strokeWidth / 2.2
   const targetText = `${targetPercentage * 100}`
 
   const path = Skia.Path.Make()
@@ -41,17 +39,25 @@ export const DonutChart: FC<DonutChartProps> = ({
     <Canvas style={styles.container}>
       <Path
         path={path}
-        color='orange'
+        color={Colors.yellow}
         style='stroke'
         strokeWidth={strokeWidth}
         strokeCap='round'
         start={0}
         end={percentageComplete}
       />
-      <Text x={innerRadius - width / 2 + 7} y={radius + strokeWidth} text={targetText} font={font} opacity={percentageComplete} />
       <Text
-        x={innerRadius - width / 2 + 12}
-        y={radius + strokeWidth + 33}
+        color={Colors.text}
+        x={innerRadius - width / 2 + 5}
+        y={radius + strokeWidth}
+        text={targetText}
+        font={font}
+        opacity={percentageComplete}
+      />
+      <Text
+        color={Colors.textGray}
+        x={innerRadius - width / 2 + 40}
+        y={radius + strokeWidth + 45}
         text='Power'
         font={smallerFont}
         opacity={percentageComplete}
@@ -67,6 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   chartText: {
-    color: Colors.white,
+    color: Colors.text,
   },
 })

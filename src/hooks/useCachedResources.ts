@@ -22,8 +22,10 @@ export default function useCachedResources() {
           'gilroy-medium': require('../assets/fonts/Gilroy-Medium.ttf'),
           'gilroy-regular': require('../assets/fonts/Gilroy-Regular.ttf'),
           'jua-regular': require('../assets/fonts/Jua-Regular.ttf'),
+          'acme-regular': require('../assets/fonts/Acme-Regular.ttf'),
           'roboto-bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
           'roboto-regular': require('../assets/fonts/Roboto/Roboto-Regular.ttf'),
+          'play-regular': require('../assets/fonts/Play/Play-Regular.ttf'),
         })
       } catch (e) {
         // We might want to provide this error information to an error reporting service

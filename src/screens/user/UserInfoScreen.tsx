@@ -20,7 +20,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 
 const BUTTON_SIZE = Spacing * 7
-const { width, height } = Dimensions.get('screen')
+const { width } = Dimensions.get('screen')
 
 const TextContainer = styled.View`
   background-color: ${Colors.grayDark};

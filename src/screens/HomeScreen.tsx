@@ -13,7 +13,7 @@ import { categories, categoryInterface, collectionInterface, collections, user }
 import Font from '../constants/Font'
 import Layout from '../constants/Layout'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList, RootStackScreenProps } from '../../types'
+import { RootStackParamList } from '../../types'
 
 import RegularText from '../components/text/RegularText'
 import SmallText from '../components/text/SmallText'
