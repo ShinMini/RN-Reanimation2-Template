@@ -2,11 +2,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { selectedDateSlice } from './slices/selectedDateSlice'
 import { cardAnimationSlice } from './slices/cardAnimationSlice'
+import { backgroundSlice } from './slices/backgroundSlice'
 
 export const store = configureStore({
   reducer: {
     selectedDate: selectedDateSlice.reducer,
     cardAnimation: cardAnimationSlice.reducer,
+    backgroundScheme: backgroundSlice.reducer,
   },
 })
 
@@ -14,3 +16,5 @@ export const store = configureStore({
 store.subscribe
 
 export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch

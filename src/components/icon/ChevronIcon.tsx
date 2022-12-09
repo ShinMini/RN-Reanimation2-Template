@@ -4,7 +4,7 @@ import React from 'react'
 import type { FC, ReactNode } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import Spacing from '../../constants/Spacing'
-import Colors from '../../constants/Colors'
+import { Colors } from '../../constants/Colors'
 import { StyleProp, ViewStyle } from 'react-native'
 
 type MyIconProps = {

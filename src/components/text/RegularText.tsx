@@ -8,15 +8,12 @@ import { Colors } from '../../constants/Colors'
 import Font from '../../constants/Font'
 import Spacing from '../../constants/Spacing'
 
-import { ReactNode } from 'react'
-import { StyleProp, TextStyle } from 'react-native'
-
 // types
 import { TextProps } from './types'
 
 const StyledText = styled.Text`
-  font-size: ${Spacing * 2}px;
-  color: ${Colors.white};
+  font-size: ${Spacing * 2.5}px;
+  color: ${Colors.text};
   text-align: left;
   font-family: ${Font.gilroyLight};
 `

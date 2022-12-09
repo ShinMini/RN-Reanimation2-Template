@@ -7,10 +7,8 @@ import React from 'react'
 import type { FC } from 'react'
 
 /** react-native Lib */
-import { StyleSheet, View } from 'react-native'
-import Colors from '../constants/Colors'
-import { FlipInEasyX } from 'react-native-reanimated'
-import { ScrollView } from 'react-native-gesture-handler'
+import { StyleSheet } from 'react-native'
+import { Colors } from '../constants/Colors'
 
 interface DonutChartProps {
   strokeWidth: number
@@ -41,7 +39,7 @@ export const DonutChart: FC<DonutChartProps> = ({
     <Canvas style={styles.container}>
       <Path
         path={path}
-        color='orange'
+        color={Colors.yellow}
         style='stroke'
         strokeWidth={strokeWidth}
         strokeCap='round'
@@ -67,6 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   chartText: {
-    color: Colors.white,
+    color: Colors.text,
   },
 })

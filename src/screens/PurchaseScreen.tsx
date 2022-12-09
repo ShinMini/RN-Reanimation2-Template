@@ -6,12 +6,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types'
 import { BlurView } from 'expo-blur'
 import Spacing from '../constants/Spacing'
-import Colors from '../constants/Colors'
+
 import { Ionicons } from '@expo/vector-icons'
 import { user } from '../data'
 import Font from '../constants/Font'
 import robot from '../assets/images/bgs/robot.jpg'
 import window from '../constants/Layout'
+
+import { Colors } from '../constants/Colors'
 
 type PurchaseScreenProps = NativeStackScreenProps<RootStackParamList, 'PurchaseScreen'>
 
@@ -169,5 +171,3 @@ const PurchaseScreen: React.FC<PurchaseScreenProps> = ({
 }
 
 export default PurchaseScreen
-
-const styles = StyleSheet.create({})

@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import * as React from 'react'
-import Colors from '../constants/Colors'
+import { Colors } from '../constants/Colors'
 import DetailScreen from '../screens/DetailScreen'
 import HomeScreen from '../screens/HomeScreen'
 import PurchaseScreen from '../screens/PurchaseScreen'
@@ -31,7 +31,7 @@ function RootNavigator() {
       screenOptions={{
         headerShown: false,
         contentStyle: {
-          backgroundColor: Colors.onBackground,
+          backgroundColor: Colors.background,
         },
       }}>
       <Stack.Screen name='Home' component={HomeScreen} />

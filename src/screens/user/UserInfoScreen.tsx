@@ -12,12 +12,11 @@ import styled from 'styled-components/native'
 import RegularText from '../../components/text/RegularText'
 import Font from '../../constants/Font'
 import Spacing from '../../constants/Spacing'
-import Colors from '../../constants/Colors'
+import { Colors } from '../../constants/Colors'
 import RegularBlurView from '../../components/view/RegularBlurView'
 import ChevronIcon from '../../components/icon/ChevronIcon'
 import BigText from '../../components/text/BigText'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import * as ImagePicker from 'expo-image-picker'
 
 const BUTTON_SIZE = Spacing * 7
 const { width, height } = Dimensions.get('screen')
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
 
-    backgroundColor: Colors.onBackground,
+    backgroundColor: Colors.background,
     alignItems: 'center',
 
     paddingTop: Platform.OS === 'android' ? Spacing * 4 : 0,
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.onSurface,
+    backgroundColor: Colors.grayDark,
   },
 })
 export default UserView

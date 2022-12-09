@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../types'
 import { Ionicons, Entypo } from '@expo/vector-icons'
 import { BlurView } from 'expo-blur'
 
-import Colors from '../constants/Colors'
+import { Colors } from '../constants/Colors'
 import Spacing from '../constants/Spacing'
 import Font from '../constants/Font'
 import RegularBlurView from '../components/view/RegularBlurView'

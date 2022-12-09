@@ -2,21 +2,20 @@
 
 import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native'
 import React from 'react'
-import type { FC, ReactNode } from 'react'
+import type { FC } from 'react'
+import { Colors } from '../constants/Colors'
+import Font from '../constants/Font'
+import RegularText from './text/RegularText'
 
 type LoadingViewProps = {
   viewStyle?: ViewStyle
   textStyle?: TextStyle
   text?: string
 }
-const LoadingView: FC<LoadingViewProps> = ({
-  viewStyle,
-  textStyle,
-  text = 'Load the fonts...',
-}) => {
+const LoadingView: FC<LoadingViewProps> = ({ viewStyle, textStyle, text = 'Load the fonts...' }) => {
   return (
     <View style={[styles.container, viewStyle]}>
-      <Text style={[styles.text, textStyle]}>{text}</Text>
+      <RegularText textStyles={[styles.text, textStyle]}>{text}</RegularText>
     </View>
   )
 }
@@ -26,9 +25,13 @@ export default LoadingView
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: Colors.background,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: { fontSize: 25, fontWeight: '700', textAlign: 'center', color: 'white' },
+  text: {
+    fontWeight: '700',
+    textAlign: 'center',
+    fontFamily: Font.juaRegular,
+  },
 })

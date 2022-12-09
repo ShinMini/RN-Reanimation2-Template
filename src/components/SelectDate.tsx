@@ -12,16 +12,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // styles
 import Spacing from '../constants/Spacing'
-import Colors from '../constants/Colors'
-import { setDay, setMonth, setWeek, setYear, selectedDateSlice } from '../state/slices/selectedDateSlice'
-import { CardAnimationActionType as CardAction, SelectedDateActionType as DateAction } from '../state/action-types/index'
+import { Colors } from '../constants/Colors'
+import { setDay, setMonth, setWeek, setYear } from '../state/slices/selectedDateSlice'
+import { SelectedDateActionType as DateAction } from '../state/action-types/index'
 import { RootState } from '../state'
 import { setFlip, setRegular } from '../state/slices/cardAnimationSlice'
-import { MotiPressable } from 'moti/interactions'
 
-// Main component
-
-const SelectDate: React.FC = (props) => {
+const SelectDate: React.FC = () => {
   const [isShowDisplay, setIsShowDisplay] = useState(false)
 
   const nowReduxDate = useSelector<RootState, DateAction>((state) => state.selectedDate.value)
@@ -32,24 +29,24 @@ const SelectDate: React.FC = (props) => {
   const onPress = useCallback((selectedOption: DateAction) => {
     switch (selectedOption) {
       case DateAction.DAY:
-        dispatch(setDay())
+        setDay()
         break
       case DateAction.WEEK:
-        dispatch(setWeek())
+        setWeek()
         break
       case DateAction.MONTH:
-        dispatch(setMonth())
+        setMonth()
         break
       case DateAction.YEAR:
-        dispatch(setYear())
+        setYear()
         break
     }
     setIsShowDisplay((isShowDisplay) => !isShowDisplay)
   }, [])
 
   useEffect(() => {
-    if (!isShowDisplay) dispatch(setRegular())
-    if (isShowDisplay) dispatch(setFlip())
+    if (!isShowDisplay) setRegular()
+    if (isShowDisplay) setFlip()
   }, [isShowDisplay])
 
   const animState = useAnimationState({

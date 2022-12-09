@@ -9,7 +9,7 @@ import { StatusBar, Image, Animated, View, Dimensions, StyleSheet, SafeAreaView,
 import { RootStackParamList } from '../../types'
 import ChevronIcon from '../components/icon/ChevronIcon'
 import RegularBlurView from '../components/view/RegularBlurView'
-import Colors from '../constants/Colors'
+import { Colors } from '../constants/Colors'
 import Spacing from '../constants/Spacing'
 const { width, height } = Dimensions.get('screen')
 

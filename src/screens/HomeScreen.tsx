@@ -2,10 +2,10 @@
 
 // prettier-ignore
 import { Animated, FlatList, Image, StyleSheet, ImageBackground, Platform, SafeAreaView, Text, TouchableOpacity, View, Alert, } from "react-native";
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import Colors from '../constants/Colors'
+import { Colors } from '../constants/Colors'
 import Spacing from '../constants/Spacing'
 
 // prettier-ignore
@@ -28,6 +28,7 @@ import { RootState } from '../state'
 
 import { CardAnimationActionType as CardAction, SelectedDateActionType as DateAction } from '../state/action-types/index'
 import { BlurView } from 'expo-blur'
+
 const SIZE = Spacing * 6
 const CARD_HEIGHT = Spacing * 45
 const CARD_WIDTH = Layout.window.width - Spacing * 4
@@ -101,30 +102,39 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
   useEffect(() => {
     setActiveCategory(categories[0])
   }, [])
-  const menuOptionBtn = (goTo: any) => {
+
+  const menuToggleBtn = useCallback(() => {
     setActiveMenu((prevState) => !prevState)
-    navigate(goTo)
-  }
+  }, [])
 
   return (
     <SafeAreaView style={{ paddingTop: Platform.OS === 'android' ? Spacing * 4 : 0 }}>
       {activeMenu && (
         <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} style={styles.sideMenu}>
           <BlurView tint='dark' intensity={122} style={styles.menuView}>
-            <TouchableOpacity onPress={() => menuOptionBtn('Home')}>
+            <TouchableOpacity
+              onPress={() => {
+                menuToggleBtn()
+                navigate('Home')
+              }}>
               <BigText textStyles={[styles.menuText, { color: Colors.yellow }]}>Home</BigText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => menuOptionBtn('UserCarScreen')}>
+            <TouchableOpacity
+              onPress={() => {
+                menuToggleBtn()
+                navigate('UserCarScreen', { userInfo: user })
+              }}>
               <BigText textStyles={[styles.menuText]}>My Car</BigText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => menuOptionBtn('CollectionScreen')}>
+            <TouchableOpacity
+              onPress={() => {
+                menuToggleBtn()
+                navigate('CollectionScreen')
+              }}>
               <BigText textStyles={[styles.menuText]}>Collection</BigText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => Alert.alert('신현민', 'Git: ShinMini.git \n phone: 010-8794-3202')}>
               <BigText textStyles={[styles.menuText]}>Contact</BigText>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => Alert.alert('준비중인 페이지입니다 :(')}>
-              <BigText textStyles={[styles.menuText]}>Setting</BigText>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => Alert.alert('Used Skills', ' React-Native, Redux, Typescript, ReAnimated, babel, webpack ')}>
