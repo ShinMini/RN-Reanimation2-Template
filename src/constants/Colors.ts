@@ -1,20 +1,27 @@
 /** @format */
 
-const dark: string = '#1B1E28'
-const light: string = '#FFFFFF'
-const gray: string = '#9CA0A6'
-const yellow: string = '#FF9823'
-
 export const Colors = {
-  text: light,
-  light: light,
-  lightText: gray,
-  darkText: dark,
-  lightBackground: light,
+  light: '#FFD6BA',
+  lightText: '#9CA0A6',
+  darkText: '#1B1E28',
+  lightBackground: '#E4E4E4',
+
+  background: '#000000',
+  cardBackground: '#14213d',
+
+  lightCardBackground: '#6d597a',
+  lightGray: '#e5e5e5',
+
+  yellow: '#ffc300',
+
+  yellowLight: '#ffbf69',
+
+  text: '#f8f9fa',
+  textGray: '#e9ecef',
+
   white: '#fff',
   black: '#000',
   primary: '#ef835d',
-  yellow: '#F2B705',
   gray: '#d1d5db',
   grayLight: '#C3C4C6',
   grayDark: '#4B5563',
@@ -34,7 +41,6 @@ export const Colors = {
   onError: 'rgb(255, 255, 255)',
   errorContainer: 'rgb(255, 218, 214)',
   onErrorContainer: 'rgb(65, 0, 2)',
-  background: 'rgb(255, 251, 255)',
   onBackground: 'rgb(28, 28, 23)',
   surface: 'rgb(255, 251, 255)',
   onSurface: 'rgb(28, 28, 23)',

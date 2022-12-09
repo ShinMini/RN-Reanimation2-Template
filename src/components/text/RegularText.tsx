@@ -16,7 +16,7 @@ import { TextProps } from './types'
 
 const StyledText = styled.Text`
   font-size: ${Spacing * 2}px;
-  color: ${Colors.white};
+  color: ${Colors.text};
   text-align: left;
   font-family: ${Font.gilroyLight};
 `

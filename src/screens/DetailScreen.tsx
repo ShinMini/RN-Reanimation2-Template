@@ -170,7 +170,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({ navigation: { goBack, navig
                 source={collection.logo.image}
               />
             </RegularBlurView>
-            <BigText textStyles={{ color: Colors.black }}>Get it now !</BigText>
+            <BigText textStyles={{ color: Colors.textGray }}>Get it now !</BigText>
             <View
               style={{
                 flexDirection: 'row',

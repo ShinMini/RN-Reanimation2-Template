@@ -10,7 +10,7 @@ import Font from '../../constants/Font'
 import Spacing from '../../constants/Spacing'
 const StyledText = styled.Text`
   font-size: ${Spacing * 1.5}px;
-  color: ${Colors.gray};
+  color: ${Colors.grayLight};
   text-align: left;
   font-family: ${Font.gilroyLight};
 `

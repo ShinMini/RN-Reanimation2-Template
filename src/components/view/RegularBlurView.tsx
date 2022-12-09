@@ -2,7 +2,6 @@
 
 import { BlurTint, BlurView } from 'expo-blur'
 import React, { ReactNode } from 'react'
-import Spacing from '../../constants/Spacing'
 
 import { StyleSheet, StyleProp, ViewStyle } from 'react-native'
 

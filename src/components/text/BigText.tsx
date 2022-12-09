@@ -11,7 +11,7 @@ import Spacing from '../../constants/Spacing'
 
 const StyledText = styled.Text`
   font-size: ${Spacing * 3.5}px;
-  color: ${Colors.white};
+  color: ${Colors.text};
   text-align: left;
   font-family: ${Font.gilroyBold};
 `
