@@ -17,6 +17,7 @@ export type RootStackParamList = {
   CollectionScreen: undefined
 
   UserInfoScreen: { userInfo: userInterface }
+  UserCarScreen: { userInfo: userInterface }
 }
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, Screen>

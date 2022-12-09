@@ -16,7 +16,7 @@ export const Colors = {
   primary: '#ef835d',
   yellow: '#F2B705',
   gray: '#d1d5db',
-  grayLight: '#F3F4F6',
+  grayLight: '#C3C4C6',
   grayDark: '#4B5563',
   accent: '#fbcd77',
   secondary: '#232323',
@@ -53,11 +53,11 @@ export const Colors = {
     level2: 'rgb(242, 239, 235)',
     level3: 'rgb(238, 234, 227)',
     level4: 'rgb(236, 233, 224)',
-    level5: 'rgb(233, 230, 219)'
+    level5: 'rgb(233, 230, 219)',
   },
   surfaceDisabled: 'rgba(28, 28, 23, 0.12)',
   onSurfaceDisabled: 'rgba(28, 28, 23, 0.38)',
-  backdrop: 'rgba(49, 49, 37, 0.4)'
+  backdrop: 'rgba(49, 49, 37, 0.4)',
 }
 
 export default Colors

@@ -102,8 +102,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
     setActiveCategory(categories[0])
   }, [])
   const menuOptionBtn = (goTo: any) => {
-    navigate(goTo)
     setActiveMenu((prevState) => !prevState)
+    navigate(goTo)
   }
 
   return (
@@ -114,16 +114,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
             <TouchableOpacity onPress={() => menuOptionBtn('Home')}>
               <BigText textStyles={[styles.menuText, { color: Colors.yellow }]}>Home</BigText>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => menuOptionBtn('UserCarScreen')}>
+              <BigText textStyles={[styles.menuText]}>My Car</BigText>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => menuOptionBtn('CollectionScreen')}>
               <BigText textStyles={[styles.menuText]}>Collection</BigText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => Alert.alert('신현민 ShinMini.git \n phone: 010-8794-3202')}>
+            <TouchableOpacity onPress={() => Alert.alert('신현민', 'Git: ShinMini.git \n phone: 010-8794-3202')}>
               <BigText textStyles={[styles.menuText]}>Contact</BigText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => Alert.alert('준비중인 페이지입니다 :(')}>
               <BigText textStyles={[styles.menuText]}>Setting</BigText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => Alert.alert('Use Skill, React-Native, Redux, Typescript, ReAnimated, babel, webpack ')}>
+            <TouchableOpacity
+              onPress={() => Alert.alert('Used Skills', ' React-Native, Redux, Typescript, ReAnimated, babel, webpack ')}>
               <BigText textStyles={[styles.menuText]}>About</BigText>
             </TouchableOpacity>
           </BlurView>
@@ -150,7 +154,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
         </TouchableOpacity>
       </WideSpacingView>
 
-      <Animated.View style={{ backgroundColor: Colors.background, marginVertical: Spacing * 2 }}>
+      <Animated.View
+        style={{
+          backgroundColor: Colors.background,
+          marginVertical: Spacing * 2,
+        }}>
         <FlatList
           data={categories}
           style={{ paddingVertical: Spacing * 2 }}
@@ -158,11 +166,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity key={item.id.toString()} onPress={() => setActiveCategory(item)} style={{ paddingHorizontal: Spacing * 3 }}>
+              <TouchableOpacity
+                key={item.id.toString()}
+                onPress={() => setActiveCategory(item)}
+                style={{ paddingHorizontal: Spacing * 3 }}>
                 <RegularText
                   textStyles={[
                     { color: Colors.darkText },
-                    activeCategory?.id === item.id && { fontFamily: Font.gilroyBold, color: Colors.darkText },
+                    activeCategory?.id === item.id && {
+                      fontFamily: Font.gilroyBold,
+                      color: Colors.darkText,
+                    },
                   ]}>
                   {item.name}
                 </RegularText>
@@ -178,14 +192,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
 
       <Animated.View>
         {collectionList.map((collection) => (
-          <MotiView state={cardAnimState} key={collection.id} transition={{ duration: 100, type: 'timing' }} style={styles.motiView}>
+          <MotiView
+            state={cardAnimState}
+            key={collection.id}
+            transition={{ duration: 100, type: 'timing' }}
+            style={styles.motiView}>
             {collection.cards.map((card, index) => (
               <ImageBackground
                 style={[
                   styles.backImg,
                   {
                     zIndex: collection.cards.length + 3 - index,
-                    transform: [{ translateY: index * 10 }, { scaleX: 1 - index / 10 }],
+                    transform: [{ translateY: index * 10 }, { scaleX: 1 - index / 10 }, { perspective: 1000 }],
                     opacity: 1 - 0.1 * index,
                   },
                 ]}
@@ -193,14 +211,31 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
                 source={card.image}>
                 {index === 0 && (
                   <RegularBlurView dark={true} intensity={90} blurViewStyle={styles.blurView}>
-                    <View style={{ paddingHorizontal: Spacing, paddingVertical: Spacing }}>
+                    <View
+                      style={{
+                        paddingHorizontal: Spacing,
+                        paddingVertical: Spacing,
+                      }}>
                       <BigText> {collection.name} </BigText>
                       <SmallText> {collection.handle} </SmallText>
                     </View>
                     <RegularButton
-                      onPress={() => navigate('DetailScreen', { collection: collection })}
-                      btnStyles={{ backgroundColor: 'hsl(258, 74%, 63%)' }}>
-                      <RegularText textStyles={{ fontWeight: '700', fontFamily: Font.gilroyBold }}> Detail </RegularText>
+                      onPress={() =>
+                        navigate('DetailScreen', {
+                          collection: collection,
+                        })
+                      }
+                      btnStyles={{
+                        backgroundColor: 'hsl(258, 74%, 63%)',
+                      }}>
+                      <RegularText
+                        textStyles={{
+                          fontWeight: '700',
+                          fontFamily: Font.gilroyBold,
+                        }}>
+                        {' '}
+                        Detail{' '}
+                      </RegularText>
                     </RegularButton>
                   </RegularBlurView>
                 )}
