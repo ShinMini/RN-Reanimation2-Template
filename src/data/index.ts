@@ -422,6 +422,8 @@ export interface userInterface {
   phone?: string
   email?: string
   git?: string
+
+  car?: string
 }
 
 export const user: userInterface = {
@@ -433,4 +435,5 @@ export const user: userInterface = {
   phone: '010-8794-3202',
   email: 'gusals121234@gamil.com',
   git: 'ShinMini.git',
+  car: 'Mini Cooper',
 }

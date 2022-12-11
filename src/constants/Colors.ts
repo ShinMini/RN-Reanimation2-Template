@@ -21,6 +21,10 @@ export const Colors = {
   text: '#f8f9fa',
   textGray: '#e9ecef',
 
+  lightGreen: '#73ba9b',
+  green: '#2A9D8F',
+  deepGreen: '#003e1f',
+
   white: '#fff',
   black: '#000',
   primary: '#ef835d',

@@ -5,58 +5,63 @@ import React from 'react'
 import type { FC } from 'react'
 
 /** react-native components */
-import { PixelRatio, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Animated, PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 
 /**  use Skia lib */
-import { useFont, Easing, runTiming, useValue } from '@shopify/react-native-skia'
+import { useFont, Easing, runTiming, useValue, SkiaView } from '@shopify/react-native-skia'
 import LoadingView from '../../components/LoadingView'
 
 /** Donut Chart components */
-import DonutChart from '../../components/DonutChart'
+import DonutChart from '../../components/car/DonutChart'
 
 /** navigation*/
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../../types'
 
 /** for styling */
-import styled from 'styled-components/native'
-import Layout from '../../constants/Layout'
 import { Colors } from '../../constants/Colors'
-import { Image } from 'moti'
 import userCar from './../../assets/images/user/car-sample.png'
-import BigText from '../../components/text/BigText'
 import RegularText from '../../components/text/RegularText'
 import Font from '../../constants/Font'
-import SmallText from '../../components/text/SmallText'
+import CardView, { Card } from '../../components/car/CardView'
+import { MotiView, useAnimationState } from 'moti'
 
 /** declare static consistent */
 const RADIUS = PixelRatio.roundToNearestPixel(130)
-const STROKE_WIDTH = 18
+const STROKE_WIDTH = 24
 
 /** create styled components */
-const { width, height } = Layout.window
 const CARD_SIZE = RADIUS * 4
 
 const CONTENT_HEIGHT = CARD_SIZE * 3 + RADIUS
 
-const CardView = styled.View`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${Colors.lightCard};
-  padding: 40px;
-
-  border-radius: 15px;
-`
 /** navigator type config */
 type UserCarScreenProps = NativeStackScreenProps<RootStackParamList, 'UserCarScreen'>
 
 const UserCarScreen: FC<UserCarScreenProps> = (props, { navigation, route }) => {
   /** consistent that indicate donut chart percentage */
   const percentageComplete = 0.85
-  const animationState = useValue(0)
+  const myCarComplete = 0.65
 
+  /** animation variable (Skia) */
+  const chargeAnimState = useValue(0)
+  const carStatusAnimState = useValue(0)
+
+  const fadeAnim = React.useRef(new Animated.Value(0)).current
+  const transitionAnim = React.useRef(new Animated.Value(0)).current
+
+  const fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start()
+  }
+
+  /** variable  about user car */
   const userInfo = props.route.params.userInfo
+  const predictedCharge = 40
 
   /** fonts for Skia Text */
   const regularRobotoFont = useFont(require('./../../assets/fonts/Roboto/Roboto-Bold.ttf'), 60)
@@ -64,64 +69,82 @@ const UserCarScreen: FC<UserCarScreenProps> = (props, { navigation, route }) => 
   const digitFont = useFont(require('./../../assets/fonts/ZenDots-Regular.ttf'), 85)
   const smallFont = useFont(require('./../../assets/fonts/Play/Play-Regular.ttf'), 30)
 
-  const animateChart = () => {
-    animationState.current = 0
+  const chargePercentageAnim = React.useCallback(() => {
+    chargeAnimState.current = 0
 
-    runTiming(animationState, percentageComplete, {
+    runTiming(chargeAnimState, percentageComplete, {
       duration: 1250,
       easing: Easing.inOut(Easing.cubic),
     })
-  }
+  }, [])
 
+  const myCarScoreAnim = React.useCallback(() => {
+    fadeIn()
+    carStatusAnimState.current = 0
+
+    runTiming(carStatusAnimState, myCarComplete, {
+      duration: 1250,
+      easing: Easing.inOut(Easing.cubic),
+    })
+  }, [])
   /** if don't load the fonts */
   if (!regularRobotoFont || !smallerRobotoFont || !digitFont || !smallFont) {
     return <LoadingView text='로딩중입니다 :)' />
   }
-  animateChart()
+  chargePercentageAnim()
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={[styles.contentContainer]}>
-      <CardView style={{ backgroundColor: '#cdb4db' }}>
-        <View style={styles.carCard}>
-          <BigText textStyles={{ color: Colors.text, fontSize: 45 }}>{userInfo?.name}</BigText>
-          <Image source={userCar} style={[styles.carImage]} resizeMode='cover' />
-          <RegularText textStyles={{ marginBottom: 15, fontSize: 25, color: Colors.black }}>Mini Classic _BMW </RegularText>
-          <SmallText textStyles={{ color: Colors.textGray }}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</SmallText>
-        </View>
-      </CardView>
-      <CardView style={{ backgroundColor: '#173b4c' }}>
-        <View style={styles.donutChartContainer}>
+      <CardView
+        radius={RADIUS}
+        mainText={userInfo.car}
+        imageSourceUri={userCar}
+        contentText='BMW'
+        commentText='Lorem ipsum dolor sit amet consectetur adipisicing elit.'
+        backgroundColor='#cdb4db'
+      />
+
+      <Card style={{ backgroundColor: '#173b4c' }}>
+        <View style={[styles.donutChartContainer]}>
           <DonutChart
             radius={RADIUS}
             strokeWidth={STROKE_WIDTH}
-            percentageComplete={animationState}
+            percentageComplete={chargeAnimState}
             targetPercentage={percentageComplete}
             font={digitFont}
             smallerFont={smallFont}
+            circleColor={Colors.yellow}
           />
         </View>
-        <Pressable onPress={animateChart} style={styles.btn}>
-          <RegularText textStyles={{ fontSize: 27, fontFamily: Font.gilroyBold }}>Animate !</RegularText>
-        </Pressable>
-      </CardView>
-      <CardView style={{ backgroundColor: '#dde5b6' }}>
-        <View style={styles.donutChartContainer}>
-          <BigText textStyles={{ color: Colors.text }}>{userInfo?.name}</BigText>
-          <Image source={userCar} style={[styles.carImage]} resizeMode='cover' />
-          <RegularText textStyles={{ color: Colors.textGray }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </RegularText>
-        </View>
-      </CardView>
-      <CardView style={{ backgroundColor: '#76c893', marginBottom: 60 }}>
-        <View style={styles.donutChartContainer}>
-          <BigText textStyles={{ color: Colors.text }}>{userInfo?.name}</BigText>
-          <Image source={userCar} style={[styles.carImage]} resizeMode='cover' />
-          <RegularText textStyles={{ color: Colors.textGray }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </RegularText>
-        </View>
-      </CardView>
+        <RegularText textStyles={{ fontSize: 27 }}>완충까지 약 {predictedCharge}분</RegularText>
+      </Card>
+
+      <Animated.View>
+        <Card style={{ backgroundColor: '#9dc3c2' }}>
+          <Pressable onPress={myCarScoreAnim} style={styles.btn}>
+            <RegularText textStyles={{ fontSize: 27, fontFamily: Font.gilroyBold }}>내 차 점수 확인</RegularText>
+          </Pressable>
+          <Animated.View style={[styles.donutChartContainer, { transform: [{ scale: fadeAnim }] }]}>
+            <DonutChart
+              radius={RADIUS}
+              strokeWidth={25}
+              percentageComplete={carStatusAnimState}
+              targetPercentage={myCarComplete}
+              font={digitFont}
+              smallerFont={smallFont}
+              gradientColor={[Colors.green, Colors.yellow]}
+            />
+          </Animated.View>
+        </Card>
+      </Animated.View>
+
+      <CardView
+        radius={RADIUS}
+        mainText={userInfo.name}
+        contentText='Mini Cooper _BMW'
+        commentText='Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus repudiandae impedit vero voluptates quidem, praesentium quia quas dolorum ducimus ullam minima qui facilis nostrum dignissimos quam deleniti? Commodi, recusandae nulla.'
+        backgroundColor='#76c893'
+      />
     </ScrollView>
   )
 }
@@ -140,7 +163,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     height: CONTENT_HEIGHT,
-    marginVertical: 35,
   },
   carImage: {
     height: '50%',
@@ -148,14 +170,15 @@ const styles = StyleSheet.create({
   },
   donutChartContainer: {
     height: RADIUS * 2,
-    width: RADIUS * 2,
+    width: RADIUS * 2.2,
+    left: RADIUS * 0.1,
+    marginBottom: 30,
   },
   carCard: {
     height: RADIUS * 2.2,
     width: RADIUS * 2,
   },
   btn: {
-    marginTop: 40,
     backgroundColor: 'orange',
     paddingHorizontal: 60,
     paddingVertical: 25,
