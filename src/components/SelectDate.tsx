@@ -2,86 +2,57 @@
 
 // components
 import { View, StyleSheet, TouchableOpacity, StyleProp, TextStyle } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import RegularText from './text/RegularText'
 import { MotiView, useAnimationState } from 'moti'
 import { BlurView as _BlurView } from 'expo-blur'
 
-// redux
-import { useDispatch, useSelector } from 'react-redux'
+import Animated from 'react-native-reanimated'
 
 // styles
 import Spacing from '../constants/Spacing'
 import Colors from '../constants/Colors'
 import { setDay, setMonth, setWeek, setYear, selectedDateSlice } from '../state/slices/selectedDateSlice'
 import { CardAnimationActionType as CardAction, SelectedDateActionType as DateAction } from '../state/action-types/index'
-import { RootState } from '../state'
-import { setFlip, setRegular } from '../state/slices/cardAnimationSlice'
-import { MotiPressable } from 'moti/interactions'
+
+const DATE_DATA = [DateAction.DAY, DateAction.WEEK, DateAction.MONTH, DateAction.YEAR]
 
 // Main component
+interface SelectDateProps {
+  activeDate: DateAction
+  setActiveDate: (activeDate: DateAction) => void
 
-const SelectDate: React.FC = (props) => {
-  const [isShowDisplay, setIsShowDisplay] = useState(false)
+  showDateList: boolean
+  toggleBtn: () => void
+}
 
-  const nowReduxDate = useSelector<RootState, DateAction>((state) => state.selectedDate.value)
-  const dispatch = useDispatch()
-
-  const orderDate = useMemo(() => [DateAction.WEEK, DateAction.DAY, DateAction.MONTH, DateAction.YEAR], [])
-
-  const onPress = useCallback((selectedOption: DateAction) => {
-    switch (selectedOption) {
-      case DateAction.DAY:
-        dispatch(setDay())
-        break
-      case DateAction.WEEK:
-        dispatch(setWeek())
-        break
-      case DateAction.MONTH:
-        dispatch(setMonth())
-        break
-      case DateAction.YEAR:
-        dispatch(setYear())
-        break
-    }
-    setIsShowDisplay((isShowDisplay) => !isShowDisplay)
+const SelectDate: FC<SelectDateProps> = ({ activeDate, setActiveDate, toggleBtn, showDateList }) => {
+  const selectDate = useCallback((date: DateAction) => {
+    setActiveDate(date)
+    toggleBtn()
   }, [])
 
-  useEffect(() => {
-    if (!isShowDisplay) dispatch(setRegular())
-    if (isShowDisplay) dispatch(setFlip())
-  }, [isShowDisplay])
-
-  const animState = useAnimationState({
-    from: {
-      opacity: 0,
-      scale: 0.9,
-    },
-    to: {
-      opacity: 1,
-      scale: 1,
-    },
-  })
-
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => onPress(nowReduxDate)}>
+    <Animated.View style={styles.container}>
+      <TouchableOpacity onPress={() => toggleBtn()}>
         <MotiView style={[styles.blurView, { marginTop: Spacing }]}>
-          <RegularText textStyles={{ color: Colors.yellow }}>{nowReduxDate}</RegularText>
+          <RegularText textStyles={{ color: Colors.yellow }}>{activeDate}</RegularText>
         </MotiView>
       </TouchableOpacity>
-      {isShowDisplay &&
-        orderDate.map((date, index) => {
-          if (date == nowReduxDate) return
-          return (
-            <TouchableOpacity key={index.toString()} onPress={() => onPress(date)}>
-              <MotiView state={animState} delay={index * 500} style={styles.blurView}>
-                <RegularText textStyles={[styles.textStyle]}>{date}</RegularText>
-              </MotiView>
+      {showDateList &&
+        DATE_DATA.filter((date) => date !== activeDate).map((date, index) => (
+          <MotiView
+            key={index.toString()}
+            from={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            delay={index * 100}
+            style={styles.blurView}>
+            <TouchableOpacity onPress={() => selectDate(date)}>
+              <RegularText textStyles={[styles.textStyle]}>{date}</RegularText>
             </TouchableOpacity>
-          )
-        })}
-    </View>
+          </MotiView>
+        ))}
+    </Animated.View>
   )
 }
 
@@ -94,6 +65,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 1,
     flexDirection: 'column',
+    zIndex: 101,
   },
   blurView: {
     width: Spacing * 12,

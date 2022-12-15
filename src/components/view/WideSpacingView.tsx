@@ -20,6 +20,7 @@ const WideSpacingView: React.FC<WideSpacingViewProps> = (props) => {
 const styles = StyleSheet.create({
   rowView: {
     paddingHorizontal: Spacing * 2,
+    paddingVertical: Spacing,
     borderRadius: Spacing * 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
