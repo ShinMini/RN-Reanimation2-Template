@@ -8,22 +8,15 @@ import type { FC } from 'react'
 
 /** react-native Lib */
 import { StyleSheet } from 'react-native'
-import Colors from '../../constants/Colors'
+import Colors from '../../../constants/Colors'
+import { DonutChartProps } from './type'
+import { RADIUS } from '../../../constants/Chart'
 
-interface DonutChartProps {
-  strokeWidth: number
-  radius: number
-  percentageComplete: SkiaMutableValue<number>
-  font: SkFont
-  smallerFont: SkFont
-  smallText?: string
-  targetPercentage: number
-
+interface ColorDonutChart extends DonutChartProps {
   circleColor?: string
-  gradientColor?: string[]
 }
 
-export const DonutChart: FC<DonutChartProps> = ({
+export const DonutChart: FC<ColorDonutChart> = ({
   strokeWidth,
   radius,
   percentageComplete,
@@ -32,35 +25,26 @@ export const DonutChart: FC<DonutChartProps> = ({
   smallText = 'Power',
   targetPercentage,
 
-  circleColor,
-  gradientColor = [],
+  circleColor = Colors.yellow,
 }) => {
-  const innerRadius = radius - strokeWidth / 2.0
+  const innerRadius = RADIUS - strokeWidth / 2.0
   const targetText = `${targetPercentage * 100}`
 
   const path = Skia.Path.Make()
-  path.addCircle(radius, radius, innerRadius)
+  path.addCircle(RADIUS, RADIUS, innerRadius)
 
   const width = font.getTextWidth(targetText)
 
   return (
     <Canvas style={styles.container}>
-      {circleColor && (
-        <Group color={circleColor}>
-          <Path path={path} style='stroke' strokeWidth={strokeWidth} strokeCap='round' start={0} end={percentageComplete} />
-        </Group>
-      )}
-      {gradientColor.length != 0 && (
-        <Group>
-          <LinearGradient start={vec(0, 0)} end={vec(radius * 2.2, radius * 2.2)} colors={gradientColor} />
-          <Path path={path} style='stroke' strokeWidth={strokeWidth} strokeCap='round' start={0} end={percentageComplete} />
-        </Group>
-      )}
+      <Group color={circleColor}>
+        <Path path={path} style='stroke' strokeWidth={strokeWidth} strokeCap='round' start={0} end={percentageComplete} />
+      </Group>
 
       <Text
         color={Colors.text}
         x={innerRadius - width / 2 + 5}
-        y={radius + strokeWidth}
+        y={RADIUS + strokeWidth}
         text={targetText}
         font={font}
         opacity={percentageComplete}
@@ -68,7 +52,7 @@ export const DonutChart: FC<DonutChartProps> = ({
       <Text
         color={Colors.textGray}
         x={innerRadius - width / 2 + 40}
-        y={radius + strokeWidth + 45}
+        y={RADIUS + strokeWidth + 45}
         text={smallText}
         font={smallerFont}
         opacity={percentageComplete}

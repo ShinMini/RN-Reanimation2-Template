@@ -1,6 +1,6 @@
 /** @format */
 
-import { Image, ImageURISource, View, ImageSourcePropType } from 'react-native'
+import { Image, ImageURISource, View, ImageSourcePropType, Dimensions } from 'react-native'
 import React from 'react'
 import type { FC, ReactNode } from 'react'
 import styled from 'styled-components/native'
@@ -8,7 +8,9 @@ import Colors from '../../constants/Colors'
 import BigText from '../text/BigText'
 import RegularText from '../text/RegularText'
 import SmallText from '../text/SmallText'
+import { RADIUS } from '../../constants/Chart'
 
+const { width, height } = Dimensions.get('window')
 export const Card = styled.View`
   display: flex;
   justify-content: center;
@@ -16,7 +18,16 @@ export const Card = styled.View`
   background-color: ${Colors.lightCard};
   padding: 35px;
 
+  margin-top: 15px;
+  margin-bottom: 15px;
+
   border-radius: 15px;
+`
+
+export const CardImage = styled.Image`
+  resize: 'cover';
+  width: ${width * 0.6}px;
+  height: ${width * 0.3}px;
 `
 
 type CardViewProps = {

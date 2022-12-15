@@ -40,30 +40,30 @@ const UserView: FC<UserInfoScreenProps> = (props) => {
 
   return (
     <SafeAreaView style={[styles.mainContainer]}>
-      <View style={styles.rowView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <RegularBlurView
-            intensity={50}
-            blurViewStyle={{
-              height: BUTTON_SIZE,
-              width: BUTTON_SIZE,
-              borderRadius: BUTTON_SIZE / 2,
-            }}>
-            <ChevronIcon color={Colors.darkText} />
-          </RegularBlurView>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert('image Clicked')} style={styles.rightAvatar}>
-          <Image style={styles.mainAvatar} source={userInfo.image} />
-        </TouchableOpacity>
-      </View>
-      <MotiView style={styles.imgContainer}>
-        <TouchableOpacity style={styles.editIcon}>
-          <MaterialCommunityIcons name='square-edit-outline' size={Spacing * 3} color={Colors.grayLight} />
-        </TouchableOpacity>
-
-        <Image source={userInfo.image} style={[styles.imgStyle]} />
-      </MotiView>
       <ScrollView>
+        <View style={styles.rowView}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <RegularBlurView
+              intensity={50}
+              blurViewStyle={{
+                height: BUTTON_SIZE,
+                width: BUTTON_SIZE,
+                borderRadius: BUTTON_SIZE / 2,
+              }}>
+              <ChevronIcon color={Colors.darkText} />
+            </RegularBlurView>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Alert.alert('image Clicked')} style={styles.rightAvatar}>
+            <Image style={styles.mainAvatar} source={userInfo.image} />
+          </TouchableOpacity>
+        </View>
+        <MotiView style={styles.imgContainer}>
+          <TouchableOpacity style={styles.editIcon}>
+            <MaterialCommunityIcons name='square-edit-outline' size={Spacing * 3} color={Colors.grayLight} />
+          </TouchableOpacity>
+
+          <Image source={userInfo.image} style={[styles.imgStyle]} />
+        </MotiView>
         <MotiView>
           <TextContainer>
             <BigText textStyles={{ color: Colors.yellow }}>ID</BigText>
