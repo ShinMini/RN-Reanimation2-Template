@@ -1,97 +1,87 @@
 /** @format */
 
 /** react */
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { FC } from 'react'
-
 /** react-native components */
-import { Animated, PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-native'
-
+import { PixelRatio, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 /**  use Skia lib */
-import { useFont, Easing, runTiming, useValue, SkiaView } from '@shopify/react-native-skia'
+import { useFont, Easing, runTiming, useValue, useSharedValueEffect, useTiming } from '@shopify/react-native-skia'
 import LoadingView from '../../components/LoadingView'
-
 /** Donut Chart components */
 import DonutChart from '../../components/car/DonutChart'
-
 /** navigation*/
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../../types'
-
+/** ReAnimated */
+import Animated, { useSharedValue, withTiming, useAnimatedStyle, runOnUI } from 'react-native-reanimated'
 /** for styling */
 import { Colors } from '../../constants/Colors'
 import userCar from './../../assets/images/user/car-sample.png'
 import RegularText from '../../components/text/RegularText'
 import Font from '../../constants/Font'
 import CardView, { Card } from '../../components/car/CardView'
-import { MotiView, useAnimationState } from 'moti'
 
 /** declare static consistent */
 const RADIUS = PixelRatio.roundToNearestPixel(130)
 const STROKE_WIDTH = 24
-
 /** create styled components */
 const CARD_SIZE = RADIUS * 4
-
 const CONTENT_HEIGHT = CARD_SIZE * 3 + RADIUS
+
+/** consistent that indicate donut chart percentage */
+const predictedCharge = 40
+const percentageComplete = 0.85
+const myCarComplete = 0.65
 
 /** navigator type config */
 type UserCarScreenProps = NativeStackScreenProps<RootStackParamList, 'UserCarScreen'>
 
 const UserCarScreen: FC<UserCarScreenProps> = (props, { navigation, route }) => {
-  /** consistent that indicate donut chart percentage */
-  const percentageComplete = 0.85
-  const myCarComplete = 0.65
-
-  /** animation variable (Skia) */
-  const chargeAnimState = useValue(0)
-  const carStatusAnimState = useValue(0)
-
-  const fadeAnim = React.useRef(new Animated.Value(0)).current
-  const transitionAnim = React.useRef(new Animated.Value(0)).current
-
-  const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start()
-  }
-
-  /** variable  about user car */
-  const userInfo = props.route.params.userInfo
-  const predictedCharge = 40
-
   /** fonts for Skia Text */
   const regularRobotoFont = useFont(require('./../../assets/fonts/Roboto/Roboto-Bold.ttf'), 60)
   const smallerRobotoFont = useFont(require('./../../assets/fonts/Roboto/Roboto-Regular.ttf'), 25)
   const digitFont = useFont(require('./../../assets/fonts/ZenDots-Regular.ttf'), 85)
   const smallFont = useFont(require('./../../assets/fonts/Play/Play-Regular.ttf'), 30)
 
-  const chargePercentageAnim = React.useCallback(() => {
-    chargeAnimState.current = 0
+  /** variable  about user car */
+  const userInfo = props.route.params.userInfo
 
-    runTiming(chargeAnimState, percentageComplete, {
+  /** skia variable (Skia) */
+  const chargeStatus = useValue(0)
+  const carScore = useValue(0)
+
+  /** charge status animation */
+  const chargeChartAnim = useCallback(() => {
+    chargeStatus.current = 0
+    runTiming(chargeStatus, percentageComplete, {
       duration: 1250,
       easing: Easing.inOut(Easing.cubic),
     })
   }, [])
 
-  const myCarScoreAnim = React.useCallback(() => {
-    fadeIn()
-    carStatusAnimState.current = 0
-
-    runTiming(carStatusAnimState, myCarComplete, {
+  /** score card animation */
+  const SCORECARD_HEIGHT = useSharedValue(0)
+  const showScoreCard = useCallback(() => {
+    carScore.current = 0
+    runTiming(carScore, percentageComplete, {
       duration: 1250,
       easing: Easing.inOut(Easing.cubic),
     })
+
+    runOnUI(() => (SCORECARD_HEIGHT.value = withTiming(RADIUS * 2.2)))()
   }, [])
+
+  /** reAnimated Style  */
+  const rScoreCardStyle = useAnimatedStyle(() => {
+    return { height: SCORECARD_HEIGHT.value }
+  }, [SCORECARD_HEIGHT])
+
   /** if don't load the fonts */
   if (!regularRobotoFont || !smallerRobotoFont || !digitFont || !smallFont) {
     return <LoadingView text='로딩중입니다 :)' />
   }
-  chargePercentageAnim()
+  chargeChartAnim()
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={[styles.contentContainer]}>
@@ -105,30 +95,30 @@ const UserCarScreen: FC<UserCarScreenProps> = (props, { navigation, route }) => 
       />
 
       <Card style={{ backgroundColor: '#173b4c' }}>
-        <View style={[styles.donutChartContainer]}>
+        <Animated.View style={[styles.donutChartContainer]}>
           <DonutChart
             radius={RADIUS}
             strokeWidth={STROKE_WIDTH}
-            percentageComplete={chargeAnimState}
+            percentageComplete={chargeStatus}
             targetPercentage={percentageComplete}
             font={digitFont}
             smallerFont={smallFont}
             circleColor={Colors.yellow}
           />
-        </View>
+        </Animated.View>
         <RegularText textStyles={{ fontSize: 27 }}>완충까지 약 {predictedCharge}분</RegularText>
       </Card>
 
       <Animated.View>
         <Card style={{ backgroundColor: '#9dc3c2' }}>
-          <Pressable onPress={myCarScoreAnim} style={styles.btn}>
+          <Pressable onPress={showScoreCard} style={styles.btn}>
             <RegularText textStyles={{ fontSize: 27, fontFamily: Font.gilroyBold }}>내 차 점수 확인</RegularText>
           </Pressable>
-          <Animated.View style={[styles.donutChartContainer, { transform: [{ scale: fadeAnim }] }]}>
+          <Animated.View style={[styles.donutChartContainer, rScoreCardStyle]}>
             <DonutChart
               radius={RADIUS}
               strokeWidth={25}
-              percentageComplete={carStatusAnimState}
+              percentageComplete={carScore}
               targetPercentage={myCarComplete}
               font={digitFont}
               smallerFont={smallFont}

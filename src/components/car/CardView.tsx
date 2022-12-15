@@ -40,11 +40,8 @@ const CardView: FC<CardViewProps> = (props) => {
     <Card style={{ backgroundColor: props.backgroundColor }}>
       <View style={{ width: props.radius * 2.2, height: props.radius * 2.2 }}>
         {imageUri && <Image source={imageUri} style={{ height: '50%', width: '88%' }} resizeMode='cover' />}
-
         <BigText textStyles={{ color: Colors.deepGreen, fontSize: 45 }}>{props.mainText}</BigText>
-
         {props.children}
-
         <RegularText textStyles={{ marginBottom: 15, fontSize: 23, color: Colors.green, fontWeight: '700' }}>
           {props.contentText}
         </RegularText>
