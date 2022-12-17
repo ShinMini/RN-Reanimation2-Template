@@ -1,7 +1,7 @@
 /** @format */
 
 // prettier-ignore
-import { Text, StyleSheet, ImageBackground, Platform, SafeAreaView, } from "react-native";
+import { Text, StyleSheet, ImageBackground, Platform, SafeAreaView, ViewToken, FlatList, } from "react-native";
 import React, { useCallback, useEffect, useMemo, useState, memo } from 'react'
 import Spacing from '../../constants/Spacing'
 
@@ -18,12 +18,14 @@ import WideSpacingView from '../../components/view/WideSpacingView'
 import SelectDate from '../../components/SelectDate'
 
 import SideNavbar from '../../navigation/SideNavbar'
-import Animated from 'react-native-reanimated'
+import Animated, { useSharedValue } from 'react-native-reanimated'
 import TopNavbar from '../../navigation/TopNavbar'
 import CollectionList from './CollectionList'
 import { SelectedDateActionType as DateActionType } from '../../state/action-types/index'
+import ListItem from './ListItem'
 
 const BackgroundImage = Animated.createAnimatedComponent(ImageBackground)
+const data = new Array(50).fill(0).map((_, index) => ({ id: index }))
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 
@@ -44,6 +46,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
   const dateListToggleBtn = useCallback(() => {
     toggleDateList((prev) => !prev)
   }, [])
+
+  // FlatList ViewableItems
+  const viewableItems = useSharedValue<ViewToken[]>([])
 
   useEffect(() => {
     const selectedCategory = collectionList[activeCategory.id - 1]
@@ -74,7 +79,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
         />
       </WideSpacingView>
 
-      <Animated.View style={[styles.cardContainer]}>
+      <FlatList
+        data={displayCollection.cards}
+        contentContainerStyle={styles.cardContainer}
+        renderItem={({ item, index }) => {
+          return (
+            <BackgroundImage
+              borderRadius={10}
+              source={item.image}
+              style={[styles.cardView, { top: index * 30, zIndex: 30 - index, width: CARD_SIZE - index * 30 }]}
+              key={`Image_${item.id.toString()}`}>
+              <Text>{item.name}</Text>
+            </BackgroundImage>
+          )
+        }}
+      />
+
+      {/* <Animated.View style={[styles.cardContainer]}>
         {displayCollection.cards.map(({ image, id, name }, index) => (
           <BackgroundImage
             borderRadius={10}
@@ -84,7 +105,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation: { navigate } }) => 
             <Text>{name}</Text>
           </BackgroundImage>
         ))}
-      </Animated.View>
+      </Animated.View> */}
     </SafeAreaView>
   )
 }
@@ -94,7 +115,7 @@ const CARD_SIZE = width * 0.8
 
 const styles = StyleSheet.create({
   cardContainer: {
-    marginTop: 25,
+    marginTop: 40,
     alignItems: 'center',
   },
   cardView: {
