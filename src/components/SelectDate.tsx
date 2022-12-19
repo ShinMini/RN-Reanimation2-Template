@@ -17,7 +17,6 @@ import { setDay, setMonth, setWeek, setYear, selectedDateSlice } from '../state/
 import { CardAnimationActionType as CardAction, SelectedDateActionType as DateAction } from '../state/action-types/index'
 import { RootState } from '../state'
 import { setFlip, setRegular } from '../state/slices/cardAnimationSlice'
-import { MotiPressable } from 'moti/interactions'
 
 // Main component
 

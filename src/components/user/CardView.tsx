@@ -16,10 +16,13 @@ export const Card = styled.View`
   background-color: ${Colors.lightCard};
   padding: 35px;
 
+  margin-bottom: 20px;
+
   border-radius: 15px;
 `
 
 type CardViewProps = {
+  userName?: string
   radius: number
   backgroundColor?: string
   mainText?: string
@@ -38,13 +41,16 @@ const CardView: FC<CardViewProps> = (props) => {
 
   return (
     <Card style={{ backgroundColor: props.backgroundColor }}>
+      {props.userName && (
+        <BigText textStyles={{ color: Colors.darkCard, fontSize: 32, alignSelf: 'flex-start' }}>
+          {props.userName}님,{'\n'}안녕하세요 :)
+        </BigText>
+      )}
       <View style={{ width: props.radius * 2.2, height: props.radius * 2.2 }}>
         {imageUri && <Image source={imageUri} style={{ height: '50%', width: '88%' }} resizeMode='cover' />}
 
         <BigText textStyles={{ color: Colors.deepGreen, fontSize: 45 }}>{props.mainText}</BigText>
-
         {props.children}
-
         <RegularText textStyles={{ marginBottom: 15, fontSize: 23, color: Colors.green, fontWeight: '700' }}>
           {props.contentText}
         </RegularText>
